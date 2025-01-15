@@ -1,11 +1,17 @@
+// Получаем элементы
 const taskNameInput = document.getElementById("task-name");
 const taskPrioritySelect = document.getElementById("task-priority");
 const addTaskButton = document.getElementById("add-task");
 const taskList = document.getElementById("task-list");
 const clearAllButton = document.getElementById("clear-all");
 
-// Function to create a task item
-function createTaskItem(name, priority) {
+/**
+ * Создает новый элемент задачи
+ * @param {string} name - Название задачи
+ * @param {string} priority - Приоритет задачи (low, medium, high)
+ * @returns {HTMLElement} - Элемент задачи
+ */
+const createTaskItem = (name, priority) => {
     const li = document.createElement("li");
     li.className = "task-item";
 
@@ -21,28 +27,63 @@ function createTaskItem(name, priority) {
     deleteButton.textContent = "Delete";
     deleteButton.addEventListener("click", () => {
         li.remove();
+        showMessage("Task deleted", "info");
     });
 
     li.appendChild(nameSpan);
     li.appendChild(prioritySpan);
     li.appendChild(deleteButton);
     return li;
-}
+};
 
-// Add task to the list
-addTaskButton.addEventListener("click", () => {
+/**
+ * Добавляет задачу в список
+ */
+const addTask = () => {
     const name = taskNameInput.value.trim();
     const priority = taskPrioritySelect.value;
 
-    if (name) {
-        const taskItem = createTaskItem(name, priority);
-        taskList.appendChild(taskItem);
-        taskNameInput.value = "";
-        taskPrioritySelect.value = "low";
+    if (!name) {
+        showMessage("Task name cannot be empty!", "error");
+        return;
     }
-});
 
-// Clear all tasks
-clearAllButton.addEventListener("click", () => {
+    const taskItem = createTaskItem(name, priority);
+    taskList.appendChild(taskItem);
+    taskNameInput.value = "";
+    taskPrioritySelect.value = "low";
+    showMessage("Task added successfully!", "success");
+};
+
+/**
+ * Очищает список задач
+ */
+const clearTasks = () => {
+    if (taskList.children.length === 0) {
+        showMessage("No tasks to clear!", "info");
+        return;
+    }
     taskList.innerHTML = "";
-});
+    showMessage("All tasks cleared", "success");
+};
+
+/**
+ * Отображает сообщение
+ * @param {string} message - Текст сообщения
+ * @param {string} type - Тип сообщения (success, error, info)
+ */
+const showMessage = (message, type) => {
+    const messageBox = document.createElement("div");
+    messageBox.textContent = message;
+    messageBox.className = `message ${type}`;
+    document.body.appendChild(messageBox);
+
+    setTimeout(() => {
+        messageBox.remove();
+    }, 3000);
+};
+
+// Обработчики событий
+addTaskButton.addEventListener("click", addTask);
+clearAllButton.addEventListener("click", clearTasks);
+
