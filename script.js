@@ -1,16 +1,9 @@
-// Получаем элементы
 const taskNameInput = document.getElementById("task-name");
 const taskPrioritySelect = document.getElementById("task-priority");
 const addTaskButton = document.getElementById("add-task");
 const taskList = document.getElementById("task-list");
 const clearAllButton = document.getElementById("clear-all");
 
-/**
- * Создает новый элемент задачи
- * @param {string} name - Название задачи
- * @param {string} priority - Приоритет задачи (low, medium, high)
- * @returns {HTMLElement} - Элемент задачи
- */
 const createTaskItem = (name, priority) => {
     const li = document.createElement("li");
     li.className = "task-item";
@@ -36,9 +29,6 @@ const createTaskItem = (name, priority) => {
     return li;
 };
 
-/**
- * Добавляет задачу в список
- */
 const addTask = () => {
     const name = taskNameInput.value.trim();
     const priority = taskPrioritySelect.value;
@@ -55,9 +45,6 @@ const addTask = () => {
     showMessage("Task added successfully!", "success");
 };
 
-/**
- * Очищает список задач
- */
 const clearTasks = () => {
     if (taskList.children.length === 0) {
         showMessage("No tasks to clear!", "info");
@@ -67,11 +54,6 @@ const clearTasks = () => {
     showMessage("All tasks cleared", "success");
 };
 
-/**
- * Отображает сообщение
- * @param {string} message - Текст сообщения
- * @param {string} type - Тип сообщения (success, error, info)
- */
 const showMessage = (message, type) => {
     const messageBox = document.createElement("div");
     messageBox.textContent = message;
@@ -83,7 +65,5 @@ const showMessage = (message, type) => {
     }, 3000);
 };
 
-// Обработчики событий
 addTaskButton.addEventListener("click", addTask);
 clearAllButton.addEventListener("click", clearTasks);
-
