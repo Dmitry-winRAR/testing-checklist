@@ -134,7 +134,6 @@ body {
     text-align: center;
 }
 
-/* Стили для сообщений */
 .message {
     position: fixed;
     bottom: 1rem;
